@@ -6,8 +6,8 @@
 #define ina_motor_right 33
 #define inb_motor_right 25
 #define ena_motor_left 26
-#define ina_motor_left 14
-#define inb_motor_left 27
+#define ina_motor_left 27
+#define inb_motor_left 14
 
 //define motor
 Motor motor_right(20000, 8, 0, 1, ena_motor_right, ina_motor_right, inb_motor_right);
@@ -25,11 +25,6 @@ int ps5_LStickX ;
 int ps5_LStickY ;
 int ps5_RStickX ;
 int ps5_RStickY ;
-
-
-
-
-
 
 void setup() {
   /*motor_right.spin(200);
@@ -68,8 +63,20 @@ void move(){
   Serial.printf("motor_left_speed %f\n", motor_left_speed);
   Serial.println();
 
-  // motor_right.spin(motor_right_speed);
-  // motor_left.spin(motor_left_speed);
+  if(motor_left_speed > 200){
+    motor_left_speed = 0;
+  }
+  else if(motor_left_speed < -200){
+    motor_left_speed = -255;
+  }
+  else{
+    motor_left_speed = 255;
+  }
+
+
+
+  motor_right.spin(motor_right_speed);
+  motor_left.spin(motor_left_speed);
 
 }
 void debug_controller(){
