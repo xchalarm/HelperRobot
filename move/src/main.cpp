@@ -41,7 +41,7 @@ int a1_value = 0;
 int a2_value = 0;
 int a3_value = 0;
 int a4_value = 0;
-int efx_value = 0;
+int efx_value = 60;
 
 
 
@@ -68,30 +68,42 @@ void loop() {
     debug_controller();
     move();
     arm_task();
- 
-    // delay(100);
+    delay(50);
   }
   // put your main code here, to run repeatedly:
 }
 
 //lx=joystick left x 
 void arm_task(){
-  int index_value = 1 ;
-  if(ps5.Right())base_value += index_value;
-  if(ps5.Left())base_value -= index_value;
-  if(ps5.Up())a1_value +=  index_value;  
-  if(ps5.Down())a1_value -= index_value;  
-  if(ps5.Square())a2_value += index_value;  
-  if(ps5.Circle())a2_value -= index_value; 
-  if(ps5.Triangle())a3_value += index_value;  
-  if(ps5.Cross())a3_value -= index_value; 
-  if(ps5.UpRight())a4_value += index_value;  
-  if(ps5.DownRight())a4_value -= index_value; 
-  if(ps5.UpLeft())efx_value +=  index_value;  
-  if(ps5.DownLeft())a3_value -= index_value; 
+  int index_value = 5 ;
+  if(ps5.Right() && base_value < 180)base_value += index_value;
+  if(ps5.Left() && base_value > 0) base_value -= index_value;
+  if(ps5.Up() && a1_value < 180)a1_value +=  index_value;  
+  if(ps5.Down()&& a1_value > 0)a1_value -= index_value;  
+  if(ps5.Square()&& a2_value < 180)a2_value += index_value;  
+  if(ps5.Circle()&& a2_value > 0)a2_value -= index_value; 
+  if(ps5.Triangle()&& a3_value < 180)a3_value += index_value;  
+  if(ps5.Cross()&& a3_value > 0)a3_value -= index_value; 
+  if(ps5.L1()&& a4_value < 180)a4_value += index_value;  
+  if(ps5.L2()&& a4_value > 0)a4_value -= index_value; 
+  if(ps5.R1()&& efx_value < 180)efx_value +=  index_value;  
+  if(ps5.R2()&& efx_value > 0)efx_value -= index_value; 
+
 
   Serial.println("Base : "+ String(base_value));
+  Serial.println("joint1 : "+ String(a1_value));
+  Serial.println("Joint2 : "+ String(a2_value));
+  Serial.println("Joint3: "+ String(a3_value));
+  Serial.println("Joint4: "+ String(a4_value));
+  Serial.println("End effector: "+ String(efx_value));
+
   base.write(base_value);
+  a1.write(a1_value);
+  a2.write(a2_value);
+  a3.write(a3_value);
+  a4.write(a4_value);
+  efx.write(efx_value);
+
 }
 
 
@@ -107,7 +119,6 @@ void move(){
   Serial.printf("motor_right_speed %f\n", motor_right_speed);
   Serial.printf("motor_left_speed %f\n", motor_left_speed);
   Serial.println();
-
 
   motor_right.spin(motor_right_speed);
   motor_left.spin(motor_left_speed);
