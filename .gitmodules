@@ -1,0 +1,3 @@
+[submodule "move/lib/move/lib/ps5-esp32"]
+	path = move/lib/move/lib/ps5-esp32
+	url = https://github.com/rodneybakiskan/ps5-esp32.git
